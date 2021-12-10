@@ -15,10 +15,33 @@
             padding: 0;
         }
         #map { height: 100vh; }
+        .for-btn{
+            position: absolute;;
+            bottom: 0;
+            left: 10;
+            width: 200px;
+            kerning: 45px;
+            background-color: #fff;
+            z-index: 1988888;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .btn-m{
+
+        }
     </style>
 </head>
 <body>
+    <div class="for-btn">
+        <h4>Coordonnées Selectionnées</h4>
+        <p>latitude : <span id="lat"></span></p>
+        <p>longitude : <span id="lon"></span></p>
+        <div class="btn-m">
+
+        </div>
+    </div>
     <div id="map"></div>
+
     <script>
         (() => {
 
@@ -44,6 +67,7 @@
                     .setLatLng(e.latlng)
                     .setContent("You clicked the map at " + e.latlng.toString())
                     .openOn(map);
+                
             }
             function success(pos) {
             var crd = pos.coords;
@@ -52,6 +76,9 @@
                 console.log(`Latitude : ${crd.latitude}`);
                 console.log(`Longitude : ${crd.longitude}`);
                 console.log(`La précision est de ${crd.accuracy} mètres.`);
+
+                document.getElementById("lat").innerHTML = crd.latitude;
+                document.getElementById("lon").innerHTML = crd.longitude;
 
                 const marker = L.marker([crd.latitude, crd.longitude])
                     .on('click', onMapClick)
