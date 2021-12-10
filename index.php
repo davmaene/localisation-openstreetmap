@@ -27,7 +27,19 @@
             padding-right: 20px;
         }
         .btn-m{
-
+            border-top: 2px solid #ccc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            width: 200px;
+        }
+        .btn{
+            padding: 5px;
+            cursor: pointer;
+            width: 200px;
         }
     </style>
 </head>
@@ -36,8 +48,16 @@
         <h4>Coordonnées Selectionnées</h4>
         <p>latitude : <span id="lat"></span></p>
         <p>longitude : <span id="lon"></span></p>
+        <p>Précision : <span id="acc"></span> mètres</p>
         <div class="btn-m">
-
+            <button class="btn" id="reload">
+                <span>Actualiser la page</span>
+            </button>
+        </div>
+        <div class="btn-m">
+            <span style="text-align: center; font-size: 15px;">
+                &copy; David Maene | 2021
+            </span>
         </div>
     </div>
     <div id="map"></div>
@@ -65,7 +85,7 @@
             function onMapClick(e) {
                 popup
                     .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
+                    .setContent("Position actuelle est : " + e.latlng.toString())
                     .openOn(map);
                 
             }
@@ -79,6 +99,7 @@
 
                 document.getElementById("lat").innerHTML = crd.latitude;
                 document.getElementById("lon").innerHTML = crd.longitude;
+                document.getElementById("acc").innerHTML = Math.round((crd.accuracy + Number.EPSILON) * 100) / 100;
 
                 const marker = L.marker([crd.latitude, crd.longitude])
                     .on('click', onMapClick)
@@ -91,6 +112,10 @@
                 navigator.geolocation.getCurrentPosition(success, error, options);
             }
             location()
+            document.getElementById("reload").onclick = (e) => {
+                e.preventDefault();
+                window.location.reload()
+            }
             // map.on('click', onMapClick);
 
             // var circle = L.circle([51.508, -0.11], {
